@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  cursor: pointer;
+}
+
+.game-area {
+  margin: 1vw auto;
+  max-width: 60vw;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto auto;
+  grid-auto-flow: row;
+  background-color: rgb(146, 173, 188);
+}
+
+.checkbox_hidden {
+  /*Hiding the checkbox. We never want to see it.*/
+  position: absolute;
+  left: -9999vw;
+}
+
+.card {
+  margin: 0 auto;
+  padding: 1vw;
+  background: rgb(161, 147, 42);
+}
+
+.front-image {
+  height: 13vw;
+  padding: 0.6vw;
+  background: darkslategray;
+}

@@ -1,0 +1,99 @@
+input[type="checkbox"] {
+  /*Hiding the checkbox. We never want to see it.*/
+  position: absolute;
+  left: -9999em;
+}
+
+.container {
+  /*for codepen*/
+  margin: 2em auto 0;
+
+  /*Animation elements*/
+  display: block;
+  perspective: 600px;
+  position: relative;
+  transition: all 0.3s;
+  width: 250px;
+  height: 250px;
+
+  &:hover {
+    /*Make it a little bigger on hover,
+    to indicate that it can be clicked on.*/
+    transform: scale(1.05, 1.05);
+  }
+}
+
+.card {
+  cursor: grab; /*Another clue that this can be clicked on*/
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit; /*Size of the card is set by the container*/
+
+  backface-visibility: hidden; /*Makes a card invisible from behind.*/
+  transform-style: preserve-3d;
+  transition: all 0.8s ease-in-out;
+}
+.front {
+  /*Background stuffs for codepen*/
+  background: url("https://farm2.staticflickr.com/1005/525373055_04e1e02c0b.jpg")
+    no-repeat;
+  background-size: cover;
+
+  /*Default rotation values*/
+  transform: rotateX(0deg) rotateY(0deg);
+}
+.back {
+  background: MediumPurple; /*for codepen*/
+
+  visibility: hidden;
+  /*Default rotation value*/
+  transform: rotateY(-180deg);
+}
+
+/*When the container is clicked the checkbox is marked as checked. This activates the CSS below. */
+input[type="checkbox"]:checked {
+  ~ .container {
+    animation: lift 0.4s linear;
+    .card {
+      animation: lift-shadow 0.4s linear;
+    }
+    .back {
+      visibility: visible;
+      transform: rotateX(0deg) rotateY(0deg);
+    }
+    .front {
+      transform: rotateY(180deg);
+    }
+  }
+}
+
+@keyframes lift {
+  0% {
+    transform: scale(1, 1);
+  }
+  20% {
+    transform: scale(1.2, 1.2);
+  }
+  80% {
+    transform: scale(1.1, 1.1);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+@keyframes lift-shadow {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+  20% {
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+}
