@@ -23,6 +23,12 @@ let shuffled = unshuffled
   .sort((a, b) => a.sort - b.sort)
   .map(({ value }) => value);
 
+let untilted = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let tilted = untilted
+  .map((value) => ({ value, sort: Math.random() }))
+  .sort((a, b) => a.sort - b.sort)
+  .map(({ value }) => value);
+
 // befolka spelplanen med slumpmässigt blandade kort
 function createBoard() {
   for (let deal of shuffled) {
@@ -34,6 +40,16 @@ function createBoard() {
     // let container = document.createElement("label");
     // container.classList.add("container");
     // container.htmlFor = "toggle-" + deal;
+    let tilt = document.createElement("div");
+    tilt.classList.add("tilt");
+    let rotation = Math.floor(Math.random() * (20 - -19 + 1) + -19);
+    // let horMargin = Math.floor(
+    //   Math.random() * (20 - 0 + rotation / 3) + rotation / 3
+    // );
+    let horMargin = Math.floor(Math.random() * (20 - 0 + 1) + 1);
+    let verMargin = Math.floor(Math.random() * (20 - 0 + 1) + 0);
+    tilt.style.transform = `rotate(${rotation}deg)`;
+    tilt.style.margin = `${verMargin}px ${horMargin}px`;
     let front = document.createElement("u");
     // front.classList.add("card", "front");
     let back = document.createElement("b");
@@ -41,10 +57,11 @@ function createBoard() {
     let newImage = document.createElement("img");
     newImage.src = "img/" + deal + ".jpg";
     // newImage.classList.add("front-image");
-    myDeck.appendChild(myCard);
-    myDeck.appendChild(front);
+    myDeck.appendChild(tilt);
+    tilt.appendChild(myCard);
+    tilt.appendChild(front);
     front.appendChild(newImage);
-    myDeck.appendChild(back);
+    tilt.appendChild(back);
   }
 }
 

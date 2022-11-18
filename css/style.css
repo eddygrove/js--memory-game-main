@@ -21,15 +21,22 @@ body {
 }
 
 .checkbox_hidden {
-  /*Hiding the checkbox. We never want to see it.*/
   position: absolute;
   left: -9999vw;
 }
 
-.card {
+.container {
   margin: 0 auto;
   padding: 1vw;
   background: rgb(161, 147, 42);
+  cursor: grab;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: all 0.8s ease-in-out;
 }
 
 .front-image {
