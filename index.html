@@ -4,24 +4,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>JavaScript Memory</title>
-    <link rel="stylesheet" href="css/fliptilt.css" />
-    <script src="js/apptilt.js" defer></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/app.js" defer></script>
   </head>
   <body>
     <div class="setup">
       <div class="players">
         <div id="player1" class="player">
           <img class="playface" src="img/12.jpg" alt="Bernie" />
-          <span class="player-points">0</span>
+          <span id="player1-score" class="player-score">0</span>
         </div>
         <div id="player2" class="player">
           <img class="playface" src="img/11.jpg" alt="Waldo" />
-          <span class="player-points">0</span>
+          <span id="player2-score" class="player-score">0</span>
+        </div>
+        <div id="player3" class="player">
+          <img class="playface" src="img/2.jpg" alt="Nizaak " />
+          <span id="player3-score" class="player-score">0</span>
+        </div>
+        <div class="mode"></div>
+        <div class="slidecontainer">
+          <input
+            type="range"
+            min="10"
+            max="24"
+            value="16"
+            step="2"
+            class="slider"
+            id="myRange"
+          />
         </div>
       </div>
-      <div class="mode"></div>
     </div>
-    <div class="table"></div>
-    <!-- <button id="btn">PICKIE</button> -->
+    <div class="table" id="table"></div>
   </body>
 </html>

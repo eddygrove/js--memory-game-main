@@ -31,27 +31,32 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   vertical-align: middle;
+  /* justify-content: space-between; */
 }
 
 /* --- CARD SETTINGS --- */
 
-.deck > input,
-.deck > u,
-.deck > b {
+.deck > .card > input,
+.deck > .card > u,
+.deck > .card > b {
   width: 86px;
-  height: 129px;
+  height: 98px;
   position: relative;
 }
 
-.deck > input {
+.deck > .card > input {
   margin: 0 5px 10px;
   z-index: 999;
   cursor: pointer;
-  opacity: 0;
+  opacity: 0.7;
 }
 
-.deck > u,
-.deck > b {
+.deck > .card > input:active {
+  cursor: grab;
+}
+
+.deck > .card > u,
+.deck > .card > b {
   left: -5px; /* Subtract margin value */
   margin-left: -86px; /* Subtract width value */
   display: inline-block;
@@ -66,14 +71,13 @@ h1 {
 
 /* --- FRONT CONTENT --- */
 
-.deck > u {
+.deck > .card > u {
   font: bold 11px/1 Arial, Helvetica, sans-serif;
-  color: #148;
   background: #f8fff9;
   text-decoration: none;
 }
 
-.deck > u > img {
+.deck > .card > u > img {
   display: block;
   width: 75px;
   height: 75px;
@@ -84,7 +88,7 @@ h1 {
   background: linear-gradient(#fcfcff, #fff 5%, #fbfbfe 65%, #f3f3f5 100%);
 }
 
-.deck > u > i {
+.deck > .card > u > i {
   display: block;
   margin: 1px 4px 0;
   font: 9px/0.9 Arial, Helvetica, sans-serif;
@@ -93,15 +97,15 @@ h1 {
 
 /* --- BACK CONTENT --- */
 
-.deck > b {
+.deck > .card > b {
   background: #ebe119;
   background: linear-gradient(#fede1e, #dabb1e);
   border: 5px solid #f8fff9;
   box-sizing: border-box;
 }
 
-.deck > b::before,
-.deck > b::after {
+.deck > .card > b::before,
+.deck > .card > b::after {
   content: "";
   display: block;
   position: absolute;
@@ -115,7 +119,7 @@ h1 {
   opacity: 0.3;
 }
 
-.deck > b::after {
+.deck > .card > b::after {
   background-position: calc(50% + 18px) calc(50% + 18px);
 }
 
@@ -125,21 +129,21 @@ h1 {
   perspective: 1500px;
 }
 
-.deck > u,
-.deck > b {
+.deck > .card > u,
+.deck > .card > b {
   transition: all 0.6s;
   backface-visibility: hidden;
   transform-style: preserve-3d;
   z-index: 0;
 }
 
-.deck > input:checked + u,
-.deck > input:checked + u + b {
+.deck > .card > .checked + u,
+.deck > .card > .checked + u + b {
   z-index: 100;
 }
 
-.deck > input:focus + u,
-.deck > input:focus + u + b {
+.deck > .card > input:focus + u,
+.deck > .card > input:focus + u + b {
   transition-property: transform, filter, box-shadow; /* Exclude z-index to immediately overlay */
   outline: 0;
   z-index: 900;
@@ -147,14 +151,14 @@ h1 {
 
 /* --- FRONT ANIMATION --- */
 
-.deck > u {
+.deck > .card > u {
   transform: translateX(160%) rotateY(-180deg);
   transform-origin: -30% center;
   box-shadow: 130px 30px 40px -20px rgba(0, 0, 0, 0);
   filter: brightness(3);
 }
 
-.deck > input:checked + u {
+.deck > .card > .checked + u {
   transform: translateX(0%) rotateY(0deg);
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
   filter: brightness(1);
@@ -162,14 +166,14 @@ h1 {
 
 /* --- BACK ANIMATION --- */
 
-.deck > b {
+.deck > .card > b {
   transform: translateX(0%) rotateY(0deg);
   transform-origin: 130% center;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
   filter: brightness(1);
 }
 
-.deck > input:checked + u + b {
+.deck > .card > .checked + u + b {
   transform: translateX(-160%) rotateY(180deg);
   box-shadow: 80px 10px 20px -40px rgba(0, 0, 0, 0);
   filter: brightness(0);
@@ -177,20 +181,20 @@ h1 {
 
 /* Edge hack - Prevent click during transition, otherwise the animation breaks. */
 
-@supports (-ms-ime-align: auto) {
-  .deck > input {
+/* @supports (-ms-ime-align: auto) {
+  .deck > .card > input {
     animation: step-end 0.8s; // Time is the same as the main transition
   }
-  .deck > u,
-  .deck > b {
+  .deck > .card > u,
+  .deck > .card > b {
     cursor: pointer;
   }
 
-  .deck > input:checked {
+  .deck > .card > .checked {
     animation-name: noclick1;
   }
 
-  .deck > input:not(:checked) {
+  .deck > .card > input:not(:checked) {
     animation-name: noclick2;
   }
 
@@ -211,4 +215,34 @@ h1 {
       visibility: visible;
     }
   }
+} */
+
+/* --- SETUP --- */
+
+.setup {
+  display: flex;
+  justify-content: center;
+}
+
+/* --- PLAYERS --- */
+
+.players {
+  display: flex;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.playface {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.player-points {
+  font-size: 30px;
 }
