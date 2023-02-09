@@ -1,12 +1,15 @@
+// basic coding inspired by Ania Kubów https://www.youtube.com/watch?v=tjyDOHzKN0w
+// card animation css from OpenDec https://codepen.io/OpenDec/pen/YEYEoX?
+
 // Tvärtom-komihåg[redigera | redigera wikitext]
 // Detta är en variant av ovan beskrivna spel där man ska undvika att ta par. Varje gång det är ens tur får man vända valfritt antal kort, ett efter ett, tills man är nöjd eller spricker. Om man är nöjd får man behålla de kort man vänt. Spricker gör man när man vänder upp ett kort med samma valör som något annat man redan vänt upp. När man spruckit måste man vända alla uppochner igen och sedan är det nästa spelares tur. Den som har samlat på sig flest kort på slutet har vunnit. På slutet kanske inte alla kort går åt på grund av att ingen vill vända något mer.
 
-// dark mode decoration?: 神経衰弱
-// Shinkei-suijaku (Japanese meaning "nervous breakdown") = Memory
+// dark mode decoration?: 神経衰弱 Shinkei-suijaku (Japanese meaning "nervous breakdown") = Memory
 
-let thePlayers = [1, 2, 3];
+let thePlayers = [1, 2, 3, 4];
 let playerCurrent = 1;
 let darkMode = false;
+// let deckSize = 24;
 let deckSize = 24;
 let cardsChosenId = [];
 let cardsChosen = [];
@@ -16,7 +19,7 @@ let p2Score = 0;
 let p3Score = 0;
 let cardsWon = 0;
 let iState = 0;
-// an tentative variable that would automate the flipping back of unmatching pairs. Worse for tactical memorising, but if you're lazy...
+// a tentative variable that would automate the flipping back of unmatching pairs. Worse for tactical memorising, but if you're lazy...
 let autoBack = false;
 let flipOne = false;
 
@@ -55,10 +58,10 @@ function createBoard() {
     card.classList.add("card");
     card.classList.add("pair-" + deal);
     let rotation = Math.floor(Math.random() * (20 - -20 + 1) + -20);
-    // let horMargin = Math.floor(
-    //   Math.random() * (20 - 0 + rotation / 3) + rotation / 3
-    // );
-    let horMargin = Math.floor(Math.random() * (20 - 0 + 1) + 1);
+    let horMargin = Math.floor(
+      Math.random() * (20 - 0 + rotation / 3) + rotation / 3
+    );
+    // let horMargin = Math.floor(Math.random() * (20 - 0 + 1) + 1);
     let verMargin = Math.floor(Math.random() * (10 - 0 + 1) + 1);
     card.style.transform = `rotate(${rotation}deg)`;
     card.style.margin = `${verMargin}px ${horMargin}px`;
@@ -173,10 +176,13 @@ function flipCard() {
       document.getElementById(`player${playerCurrent}-score`).innerText =
         currentScore;
       cardsWon += 2;
+      console.log("currentScore: " + currentScore);
 
       cardsChosen = [];
       if (cardsWon === deckSize) {
         // ********> GAME OVER
+
+        // let maxPoints = Math.max(...array);
 
         overAlert = () => {
           alert("Game Över!!");
@@ -208,3 +214,5 @@ function flipCard() {
     }
   }
 }
+
+// THIS TOO SHALL PASS

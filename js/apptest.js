@@ -1,15 +1,26 @@
-let playerCount = 2;
+// basic coding inspired by Ania Kubów https://www.youtube.com/watch?v=tjyDOHzKN0w
+// card animation css from OpenDec https://codepen.io/OpenDec/pen/YEYEoX?
+
+// Tvärtom-komihåg[redigera | redigera wikitext]
+// Detta är en variant av ovan beskrivna spel där man ska undvika att ta par. Varje gång det är ens tur får man vända valfritt antal kort, ett efter ett, tills man är nöjd eller spricker. Om man är nöjd får man behålla de kort man vänt. Spricker gör man när man vänder upp ett kort med samma valör som något annat man redan vänt upp. När man spruckit måste man vända alla uppochner igen och sedan är det nästa spelares tur. Den som har samlat på sig flest kort på slutet har vunnit. På slutet kanske inte alla kort går åt på grund av att ingen vill vända något mer.
+
+// dark mode decoration?: 神経衰弱 Shinkei-suijaku (Japanese meaning "nervous breakdown") = Memory
+
+let thePlayers = [1, 2, 3, 4];
 let playerCurrent = 1;
-let playerCurrentPoints = 0;
 let darkMode = false;
-let deckSize = 6;
+let deckSize = 24;
 let cardsChosenId = [];
 let cardsChosen = [];
-let autoBack = false;
 let playOn = true;
 let p1Score = 0;
 let p2Score = 0;
 let p3Score = 0;
+let cardsWon = 0;
+let iState = 0;
+// an tentative variable that would automate the flipping back of unmatching pairs. Worse for tactical memorising, but if you're lazy...
+let autoBack = false;
+let flipOne = false;
 
 // skapar första spelplanen
 document.body.onload = createBoard;
@@ -40,8 +51,8 @@ function createBoard() {
   for (let deal of shuffled) {
     //   for (let deal = 1; deal < deckSize; deal++) {
     // change this element <input> to a <div>?
-    let myCheckbox = document.createElement("input");
-    myCheckbox.type = "checkbox";
+    // let myCheckbox = document.createElement("input");
+    // myCheckbox.type = "checkbox";
     let card = document.createElement("div");
     card.classList.add("card");
     card.classList.add("pair-" + deal);
@@ -58,18 +69,24 @@ function createBoard() {
     let newImage = document.createElement("img");
     newImage.src = "img/" + deal + ".jpg";
     myDeck.appendChild(card);
-    card.appendChild(myCheckbox);
+    // card.appendChild(myCheckbox);
     card.appendChild(front);
     front.appendChild(newImage);
     card.appendChild(back);
-    console.log("deckSize: ", deckSize);
+
     card.addEventListener("click", flipCard);
   }
 }
+// Mark current player image
+let currentFace = document.getElementById(
+  `player${playerCurrent}`
+).firstElementChild;
+currentFace.classList.toggle("current-player");
 
 function flipCard() {
-  // variable markThis to mark child element <input> of card instead of <div> card itself, remnant from css-only card flip
-  let markThis = this.querySelector("input");
+  let markThis = this.querySelector(".card");
+  console.log("markThis: ", markThis);
+
   //   if two non-matching cards are flipped, no more card picks are allowed:
   if (!playOn) {
     console.log("playOn: ", playOn);
@@ -90,6 +107,22 @@ function flipCard() {
         // cardsChosen = [];
         playOn = true;
         // ****>  Next player logic here
+
+        currentFace = document.getElementById(`player${playerCurrent}`);
+        currentFace.classList.toggle("current-player");
+
+        // function shiftPlayer() {
+        iState = playerCurrent;
+        let playerCount = thePlayers.length;
+        if (iState == playerCount) {
+          iState = 0;
+        }
+        iState++;
+        playerCurrent = iState;
+        currentFace = document.getElementById(`player${playerCurrent}`);
+        console.log("currentFace ", currentFace);
+        currentFace.classList.toggle("current-player");
+        // }
       }
       return;
     } else {
@@ -128,12 +161,38 @@ function flipCard() {
 
         match.style.transform = "translate(-300px, -1000px)";
       });
+
+      // update score for current player:
+      let currentScore = document.getElementById(
+        `player${playerCurrent}-score`
+      ).innerText;
+      console.log("currentScore: ", currentScore);
+
+      currentScore++;
+      document.getElementById(`player${playerCurrent}-score`).innerText =
+        currentScore;
+      cardsWon += 2;
+
       cardsChosen = [];
+      if (cardsWon === deckSize) {
+        // ********> GAME OVER
+
+        overAlert = () => {
+          alert("Game Över!!");
+          gameOver.innerText = "G A M E   O V E R";
+        };
+        setTimeout(overAlert, 2000);
+
+        let gameOver = document.createElement("h2");
+        gameOver.classList.add("h2_gameover");
+        let myTable = document.getElementById("table");
+        myTable.appendChild(gameOver);
+      }
     } else if (!autoBack) {
       playOn = false;
       return;
 
-      //   **** AUTOBACK option not working:
+      //   **** AUTOBACK option (not ready):
       // } else {
       //   console.log(
       //     "autoBack true and cardsChosen.length = 2...? cardsChosen.length:",
@@ -149,8 +208,4 @@ function flipCard() {
   }
 }
 
-// check for match
-
-function checkForMatch() {
-  if (cardsChosen[0] === cardsChosen[1]) alert("Matchhie");
-}
+// THIS TOO SHALL PASS
